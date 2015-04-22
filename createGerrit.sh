@@ -7,7 +7,6 @@ GERRIT_NAME=${GERRIT_NAME:-gerrit}
 PG_GERRIT_NAME=${PG_GERRIT_NAME:-pg-gerrit}
 DOCKER_IMAGE=openfrontier/gerrit
 LOCAL_VOLUME=~/gerrit_volume
-PG_NAME=pg-gerrit
 docker run --name $PG_GERRIT_NAME -p 5432:5432 -e POSTGRES_USER=gerrit2 -e POSTGRES_PASSWORD=gerrit -e POSTGRES_DB=reviewdb -d postgres
 sleep 5
 mkdir -p "${LOCAL_VOLUME}"
