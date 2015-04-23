@@ -1,6 +1,6 @@
 # gerrit-docker
 Operational scripts for docker-gerrit project.
 ## Create gerrit container.
-    ./createGerrit.sh ${DockerHostname} ${LDAPHostName} ${LDAPAccountBase}
+    ./createGerrit.sh <Gerrit canonicalWebUrl> <LDAP server ip/name> <LDAP AccountBase>
 ## Destroy gerrit container.
-    ./cleanGerrit.sh
+    ./destroyGerrit.sh
