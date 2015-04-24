@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 GERRIT_NAME=${GERRIT_NAME:-gerrit}
 PG_GERRIT_NAME=${PG_GERRIT_NAME:-pg-gerrit}
 LOCAL_VOLUME=~/gerrit_volume
