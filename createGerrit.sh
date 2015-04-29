@@ -7,7 +7,7 @@ HTTPD_LISTENURL=${HTTPD_LISTENURL:-http://*:8080}
 GERRIT_NAME=${GERRIT_NAME:-gerrit}
 PG_GERRIT_NAME=${PG_GERRIT_NAME:-pg-gerrit}
 GERRIT_IMAGE_NAME=${GERRIT_IMAGE_NAME:-openfrontier/gerrit}
-LOCAL_VOLUME=~/gerrit_volume
+LOCAL_VOLUME=~/gerrit_volume${SUFFIX}
 
 docker run --name $PG_GERRIT_NAME -p 5432:5432 -e POSTGRES_USER=gerrit2 -e POSTGRES_PASSWORD=gerrit -e POSTGRES_DB=reviewdb -d postgres
 sleep 5
