@@ -17,7 +17,10 @@ docker run \
 -e POSTGRES_DB=reviewdb \
 -d postgres
 
-sleep 5
+while [ -z "$(docker logs ${PG_GERRIT_NAME} 2>&1 | grep 'autovacuum launcher started')" ]; do
+    echo "Waiting postgres ready."
+    sleep 5
+done
 
 mkdir -p "${LOCAL_VOLUME}"
 
