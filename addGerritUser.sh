@@ -14,5 +14,5 @@ RESPONSE=$(curl -X POST -d "username=${HTTP_UID}" -d "password=${HTTP_PWD}" ${GE
 [ -z "${RESPONSE}" ] || { echo "${RESPONSE}" ; exit 1; }
 
 # Add ssh-key
-cat "${SSH_KEY_PATH}" | curl --data @- --user "${HTTP_UID}:${HTTP_PWD}"  ${GERRIT_WEBURL}/a/accounts/self/sshkeys
+cat "${SSH_KEY_PATH}.pub" | curl --data @- --user "${HTTP_UID}:${HTTP_PWD}"  ${GERRIT_WEBURL}/a/accounts/self/sshkeys
 
