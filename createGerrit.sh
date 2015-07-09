@@ -8,6 +8,7 @@ GERRIT_NAME=${GERRIT_NAME:-gerrit}
 GERRIT_VOLUME=${GERRIT_VOLUME:-gerrit-volume}
 PG_GERRIT_NAME=${PG_GERRIT_NAME:-pg-gerrit}
 GERRIT_IMAGE_NAME=${GERRIT_IMAGE_NAME:-openfrontier/gerrit}
+POSTGRES_IMAGE=${POSTGRES_IMAGE:-postgres}
 
 # Start PostgreSQL.
 docker run \
@@ -16,7 +17,7 @@ docker run \
 -e POSTGRES_USER=gerrit2 \
 -e POSTGRES_PASSWORD=gerrit \
 -e POSTGRES_DB=reviewdb \
--d postgres
+-d ${POSTGRES_IMAGE}
 
 while [ -z "$(docker logs ${PG_GERRIT_NAME} 2>&1 | grep 'autovacuum launcher started')" ]; do
     echo "Waiting postgres ready."
