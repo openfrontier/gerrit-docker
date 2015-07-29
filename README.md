@@ -6,3 +6,6 @@ Operational scripts for docker-gerrit project.
     addGerritUser.sh <Gerrit canonicalWebUrl> <admin http uid> <admin http password> <public ssh key path>
 ## Destroy gerrit container.
     destroyGerrit.sh
+## Upgrade gerrit container.
+   ## Gerrit 2.10.6->2.11.2 tested
+    upgradeGerrit.sh
