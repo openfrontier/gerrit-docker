@@ -10,8 +10,16 @@ PG_GERRIT_NAME=${PG_GERRIT_NAME:-pg-gerrit}
 GERRIT_IMAGE_NAME=${GERRIT_IMAGE_NAME:-openfrontier/gerrit}
 
 # Stop and Delete gerrit container.
-docker stop ${GERRIT_NAME}
-docker rm -v ${GERRIT_NAME}
+if [ -z "$(docker ps -a | grep ${GERRIT_VOLUME})" ]; then
+  echo "${GERRIT_VOLUME} does not exist."
+  exit 1
+elif [ -z "$(docker ps -a | grep ${PG_GERRIT_NAME})" ]; then
+  echo "${PG_GERRIT_NAME} does not exist."
+  exit 1
+elif [ -n "$(docker ps -a | grep ${GERRIT_NAME} | grep -v ${GERRIT_VOLUME} | grep -v ${PG_GERRIT_NAME})" ]; then
+  docker stop ${GERRIT_NAME}
+  docker rm -v ${GERRIT_NAME}
+fi
 
 # Start Gerrit.
 docker run \
