@@ -10,3 +10,5 @@ Operational scripts for docker-gerrit project.
    ## Gerrit 2.10.6->2.11.2 tested
    ## Gerrit 2.11.5->2.12 tested
     upgradeGerrit.sh
+## Usage
+   [This project](https://github.com/openfrontier/ci) can be used as a demo of using these scripts.
