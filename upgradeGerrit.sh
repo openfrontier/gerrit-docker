@@ -20,10 +20,10 @@ if [ -z "$(docker ps -a | grep ${GERRIT_VOLUME})" ]; then
 elif [ -z "$(docker ps -a | grep ${PG_GERRIT_NAME})" ]; then
   echo "${PG_GERRIT_NAME} does not exist."
   exit 1
-elif [ -n "$(docker ps | grep ${GERRIT_NAME})" ]; then
+elif [ -n "$(docker ps | grep ${GERRIT_NAME} | grep -v ${PG_GERRIT_NAME})" ]; then
   docker stop ${GERRIT_NAME}
-  docker rm -v ${GERRIT_NAME}
-elif [ -n "$(docker ps -a | grep ${GERRIT_NAME})" ]; then
+fi
+if [ -n "$(docker ps -a | grep ${GERRIT_NAME} | grep -v ${GERRIT_VOLUME} | grep -v ${PG_GERRIT_NAME})" ]; then
   docker rm -v ${GERRIT_NAME}
 fi
 
