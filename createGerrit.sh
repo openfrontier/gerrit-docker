@@ -50,5 +50,6 @@ docker run \
 -e SMTP_USER=${SMTP_USER} \
 -e SMTP_PASS=${SMTP_PASS} \
 -e USER_EMAIL=${USER_EMAIL} \
+-e GERRIT_INIT_ARGS='--install-plugin=download-commands' \
 -d ${GERRIT_IMAGE_NAME}
 
