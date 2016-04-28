@@ -12,6 +12,7 @@ GERRIT_NAME=${GERRIT_NAME:-gerrit}
 GERRIT_VOLUME=${GERRIT_VOLUME:-gerrit-volume}
 PG_GERRIT_NAME=${PG_GERRIT_NAME:-pg-gerrit}
 GERRIT_IMAGE_NAME=${GERRIT_IMAGE_NAME:-openfrontier/gerrit}
+CI_NETWORK=${CI_NETWORK:-ci-network}
 
 # Stop and Delete gerrit container.
 if [ -z "$(docker ps -a | grep ${GERRIT_VOLUME})" ]; then
@@ -30,7 +31,7 @@ fi
 # Start Gerrit.
 docker run \
 --name ${GERRIT_NAME} \
---link ${PG_GERRIT_NAME}:db \
+--net ${CI_NETWORK} \
 -p 29418:29418 \
 --volumes-from ${GERRIT_VOLUME} \
 -e WEBURL=${GERRIT_WEBURL} \

@@ -13,10 +13,12 @@ GERRIT_VOLUME=${GERRIT_VOLUME:-gerrit-volume}
 PG_GERRIT_NAME=${PG_GERRIT_NAME:-pg-gerrit}
 GERRIT_IMAGE_NAME=${GERRIT_IMAGE_NAME:-openfrontier/gerrit}
 POSTGRES_IMAGE=${POSTGRES_IMAGE:-postgres}
+CI_NETWORK=${CI_NETWORK:-ci-network}
 
 # Start PostgreSQL.
 docker run \
 --name ${PG_GERRIT_NAME} \
+--net ${CI_NETWORK} \
 -P \
 -e POSTGRES_USER=gerrit2 \
 -e POSTGRES_PASSWORD=gerrit \
@@ -37,12 +39,17 @@ echo "Create Gerrit volume."
 # Start Gerrit.
 docker run \
 --name ${GERRIT_NAME} \
---link ${PG_GERRIT_NAME}:db \
+--net ${CI_NETWORK} \
 -p 29418:29418 \
 --volumes-from ${GERRIT_VOLUME} \
 -e WEBURL=${GERRIT_WEBURL} \
 -e HTTPD_LISTENURL=${HTTPD_LISTENURL} \
 -e DATABASE_TYPE=postgresql \
+-e DB_PORT_5432_TCP_ADDR=${PG_GERRIT_NAME} \
+-e DB_PORT_5432_TCP_PORT=5432 \
+-e DB_ENV_POSTGRES_DB=reviewdb \
+-e DB_ENV_POSTGRES_USER=gerrit2 \
+-e DB_ENV_POSTGRES_PASSWORD=gerrit \
 -e AUTH_TYPE=LDAP \
 -e LDAP_SERVER=${LDAP_SERVER} \
 -e LDAP_ACCOUNTBASE=${LDAP_ACCOUNTBASE} \
