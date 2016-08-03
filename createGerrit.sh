@@ -23,6 +23,7 @@ docker run \
 -e POSTGRES_USER=gerrit2 \
 -e POSTGRES_PASSWORD=gerrit \
 -e POSTGRES_DB=reviewdb \
+--restart=unless-stopped \
 -d ${POSTGRES_IMAGE}
 
 while [ -z "$(docker logs ${PG_GERRIT_NAME} 2>&1 | grep 'autovacuum launcher started')" ]; do
@@ -58,5 +59,6 @@ docker run \
 -e SMTP_PASS=${SMTP_PASS} \
 -e USER_EMAIL=${USER_EMAIL} \
 -e GERRIT_INIT_ARGS='--install-plugin=download-commands' \
+--restart=unless-stopped \
 -d ${GERRIT_IMAGE_NAME}
 
