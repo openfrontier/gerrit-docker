@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+echo "Initializing Gerrit..."
+gerrit-create-user.sh -t ldap -u ${INITIAL_ADMIN_USER} -p ${INITIAL_ADMIN_PASSWORD}
+gerrit-create-user.sh -t internal -A ${INITIAL_ADMIN_USER} -P ${INITIAL_ADMIN_PASSWORD} -u jenkins -f "Jenkins Server"
+#/add_user_to_group.sh -A ${GERRIT_USERNAME} -P ${GERRIT_PASSWORD} -u ${JENKINS_USERNAME} -g Administrators
+#/add_user_to_group.sh -A ${GERRIT_USERNAME} -P ${GERRIT_PASSWORD} -u ${INITIAL_ADMIN_USER} -g "Administrators"
+
+gerrit-upload-ssh-key.sh -c ${JENKINS_HOST} -p 8080 -A ${INITIAL_ADMIN_USER} -P ${INITIAL_ADMIN_PASSWORD} -k id_rsa.pub -u jenkins
+
+exit 0
