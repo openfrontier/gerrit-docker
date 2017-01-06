@@ -1,14 +1,9 @@
-# gerrit-docker
-Operational scripts for docker-gerrit project.
-## Create gerrit container.
-    createGerrit.sh <Gerrit canonicalWebUrl> <LDAP server ip/name> <LDAP AccountBase> <SMTP server ip> <Sender email address> <SMTP server auth user> <SMTP server auth password>
-## Add administrator's public ssh key.
-    addGerritUser.sh <Gerrit canonicalWebUrl> <admin http uid> <admin http password> <public ssh key path>
-## Destroy gerrit container.
-    destroyGerrit.sh
-## Upgrade gerrit container.
-   ## Gerrit 2.10.6->2.11.2 tested
-   ## Gerrit 2.11.5->2.12 tested
-    upgradeGerrit.sh
+# gerrit-ci docker
+This docker image is an extension of the [Gerrit docker](https://hub.docker.com/r/openfrontier/gerrit/).
+
 ## Usage
-   [This project](https://github.com/openfrontier/ci) can be used as a demo of using these scripts.
+This project is utilized by the [ci-compose project](https://github.com/openfrontier/ci-compose) to demonstrate how to start a gerrit-jenkins-nexus environment in seconds.
+This project can also be utilized as a demo about how to extend the [Gerrit docker](https://hub.docker.com/r/openfrontier/gerrit/) by adding a nohup script to accomplish some setup works while the Gerrit service is starting up.
+
+## Todo
+Fix createGerrit.sh, destroyGerrit.sh and upgradeGerrit.sh in order to make it works with the [ci project](https://github.com/openfrontier/ci).
