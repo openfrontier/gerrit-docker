@@ -70,3 +70,4 @@ cd -
 rm -rf ${CHECKOUT_DIR}
 [ -d ${CHECKOUT_DIR}.$$ ] && mv ${CHECKOUT_DIR}.$$  ${CHECKOUT_DIR}
 
+echo "finish gerrit setup"
