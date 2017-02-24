@@ -16,9 +16,12 @@ POSTGRES_IMAGE=${POSTGRES_IMAGE:-postgres}
 CI_NETWORK=${CI_NETWORK:-ci-network}
 
 # Start PostgreSQL.
+docker volume create --name pg-gerrit-volume
+
 docker run \
 --name ${PG_GERRIT_NAME} \
 --net ${CI_NETWORK} \
+--volume pg-gerrit-volume:/var/lib/postgresql/data \
 -P \
 -e POSTGRES_USER=gerrit2 \
 -e POSTGRES_PASSWORD=gerrit \
@@ -32,17 +35,14 @@ while [ -z "$(docker logs ${PG_GERRIT_NAME} 2>&1 | grep 'autovacuum launcher sta
 done
 
 # Create Gerrit volume.
-docker run \
---name ${GERRIT_VOLUME} \
-${GERRIT_IMAGE_NAME} \
-echo "Create Gerrit volume."
+docker volume create --name ${GERRIT_VOLUME}
 
 # Start Gerrit.
 docker run \
 --name ${GERRIT_NAME} \
 --net ${CI_NETWORK} \
 -p 29418:29418 \
---volumes-from ${GERRIT_VOLUME} \
+--volume ${GERRIT_VOLUME}:/var/gerrit/review_site \
 -e WEBURL=${GERRIT_WEBURL} \
 -e HTTPD_LISTENURL=${HTTPD_LISTENURL} \
 -e DATABASE_TYPE=postgresql \
@@ -61,6 +61,7 @@ docker run \
 -e GERRIT_INIT_ARGS='--install-plugin=download-commands' \
 -e INITIAL_ADMIN_USER=${GERRIT_ADMIN_UID} \
 -e INITIAL_ADMIN_PASSWORD=${GERRIT_ADMIN_PWD} \
+-e JENKINS_HOST=jenkins \
 --restart=unless-stopped \
 -d ${GERRIT_IMAGE_NAME}
 
