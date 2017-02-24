@@ -62,6 +62,7 @@ docker run \
 -e INITIAL_ADMIN_USER=${GERRIT_ADMIN_UID} \
 -e INITIAL_ADMIN_PASSWORD=${GERRIT_ADMIN_PWD} \
 -e JENKINS_HOST=jenkins \
+-e GITWEB_TYPE=gitiles \
 --restart=unless-stopped \
 -d ${GERRIT_IMAGE_NAME}
 
