@@ -69,7 +69,7 @@ until [ $count -ge ${MAX_RETRY} ]
 do
   json_request="{ \"members\": [ \"${username}\" ] }"
   ret=$(curl --request POST --user "${admin_user}:${admin_password}" --header 'Content-Type: application/json; charset=UTF-8' --data "${json_request}" --output /dev/null --silent --write-out "%{http_code}" http://localhost:8080/gerrit/a/groups/"${target_group}"/members.add)
-  if [[ ${ret} -eq 201 ]]; then
+  if [[ ${ret} -eq 200 ]]; then
     echo "User ${username} was added to a group ${target_group}"
     break
   fi
