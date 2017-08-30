@@ -77,7 +77,7 @@ fi
 
 echo "Uploading public-key to Gerrit user \"${user}\""
 ret=$(curl --request POST --user "${username}:${password}" --data "${ssh_key}" --output /dev/null --silent --write-out "%{http_code}" "http://localhost:8080/gerrit/a/accounts/${user}/sshkeys")
-if [[ ${ret} -eq 200 ]]; then
+if [[ ${ret} -eq 201 ]]; then
   echo "Public-key was uploaded"
 else
   echo "Public-key was uploaded with the invalid response code: ${ret}"
