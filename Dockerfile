@@ -5,5 +5,4 @@ MAINTAINER zsx <thinkernel@gmail.com>
 COPY gerrit-create-user.sh /usr/local/bin/gerrit-create-user.sh
 COPY gerrit-upload-ssh-key.sh /usr/local/bin/gerrit-upload-ssh-key.sh
 COPY gerrit-init.nohup /docker-entrypoint-init.d/gerrit-init.nohup
-COPY gerrit-wait-db.sh /docker-entrypoint-init.d/gerrit-wait-db.sh
 RUN chmod +x /usr/local/bin/*.sh /docker-entrypoint-init.d/gerrit-init.nohup
