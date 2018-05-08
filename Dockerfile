@@ -1,4 +1,4 @@
-FROM openfrontier/gerrit:latest
+FROM openfrontier/gerrit:2.14.x
 
 MAINTAINER zsx <thinkernel@gmail.com>
 
