@@ -9,6 +9,9 @@ usage() {
     exit 1
 }
 
+# Constants configurable via environment
+GERRIT_URL=${GERRIT_LOCAL_URL:-'http://localhost:8080/gerrit'}
+
 # Constants
 SLEEP_TIME=10
 MAX_RETRY=10
@@ -41,7 +44,7 @@ if [ -z "${admin_user}" ] || [ -z "${admin_password}" ] || [ -z "${username}" ] 
 fi
 
 echo "Testing Gerrit Connection"
-until curl --location --output /dev/null --silent --write-out "%{http_code}\\n" "http://localhost:8080/gerrit/login" | grep "401" &> /dev/null
+until curl --location --output /dev/null --silent --write-out "%{http_code}\\n" "${GERRIT_URL}/login" | grep "401" &> /dev/null
 do
     echo "Gerrit unavailable, sleeping for ${SLEEP_TIME}"
     sleep "${SLEEP_TIME}"
@@ -49,14 +52,14 @@ done
 
 # Check exists
 username=$(echo -e "${username}" | sed 's/ /%20/g')
-ret=$(curl --user "${admin_user}:${admin_password}" --output /dev/null --silent --write-out "%{http_code}" "http://localhost:8080/gerrit/a/accounts/${username}")
+ret=$(curl --user "${admin_user}:${admin_password}" --output /dev/null --silent --write-out "%{http_code}" "${GERRIT_URL}/a/accounts/${username}")
 if [[ ${ret} -eq 404 ]] ; then
     echo "User does not exists: ${username}"
     exit 0
 fi
 
 target_group=$(echo -e "${target_group}" | sed 's/ /%20/g')
-ret=$(curl --user "${admin_user}:${admin_password}" --output /dev/null --silent --write-out "%{http_code}" "http://localhost:8080/gerrit/a/groups/${target_group}")
+ret=$(curl --user "${admin_user}:${admin_password}" --output /dev/null --silent --write-out "%{http_code}" "${GERRIT_URL}/a/groups/${target_group}")
 if [[ ${ret} -eq 404 ]] ; then
     echo "Group does not exists: ${target_group}"
     exit 0
@@ -65,10 +68,10 @@ fi
 # Add user to group
 echo "Adding user: ${username}, to group: ${target_group}"
 count=0
-until [ $count -ge ${MAX_RETRY} ]
+until [ ${count} -ge ${MAX_RETRY} ]
 do
   json_request="{ \"members\": [ \"${username}\" ] }"
-  ret=$(curl --request POST --user "${admin_user}:${admin_password}" --header 'Content-Type: application/json; charset=UTF-8' --data "${json_request}" --output /dev/null --silent --write-out "%{http_code}" http://localhost:8080/gerrit/a/groups/"${target_group}"/members.add)
+  ret=$(curl --request POST --user "${admin_user}:${admin_password}" --header 'Content-Type: application/json; charset=UTF-8' --data "${json_request}" --output /dev/null --silent --write-out "%{http_code}" "${GERRIT_URL}/a/groups/${target_group}/members.add")
   if [[ ${ret} -eq 200 ]]; then
     echo "User ${username} was added to a group ${target_group}"
     break
