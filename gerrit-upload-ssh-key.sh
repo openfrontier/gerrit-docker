@@ -74,7 +74,7 @@ else
 fi
 
 echo "Uploading public-key to Gerrit user \"${user}\""
-ret=$(curl --request POST --user "${username}:${password}" --data "${ssh_key}" --output /dev/null --silent --write-out "%{http_code}" "${GERRIT_URL}/a/accounts/${user}/sshkeys")
+ret=$(curl --request POST --user "${username}:${password}" -H "Content-Type: text/plain" --data "${ssh_key}" --output /dev/null --silent --write-out "%{http_code}" "${GERRIT_URL}/a/accounts/${user}/sshkeys")
 if [[ ${ret} -eq 201 ]]; then
   echo "Public-key was uploaded"
 else
